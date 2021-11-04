@@ -18,6 +18,7 @@ For example if we haves pools P1, P2, P3 then we can define f12 and f23 as the f
 
 # Documentation:
 https://docs.superfluid.finance/superfluid/docs/constant-flow-agreement
+https://docs.uniswap.org/protocol/guides/providing-liquidity/setting-up
 https://docs.uniswap.org/protocol/concepts/V3-overview/oracle
 https://docs.uniswap.org/protocol/guides/providing-liquidity/the-full-contract
 
