@@ -1,5 +1,6 @@
 <script>
-	import {storeFE, idIncrement} from './store.js'
+	import {storeFE, idIncrement, address, provider} from './store.js'
+	import { main as mintNewPosition } from './MintNewPosition.ts' 
 
 	let positionA;
     let positionB;
@@ -9,6 +10,10 @@
     let profitsAccrued;
     let initialInvestmentValue;
     let currentInvestmentEquivalentValue;
+	let lowerTick;
+	let upperTick;
+
+	// let mintNewPosition;
 
 	// function getPositions(){}
 
@@ -24,15 +29,21 @@
             "positionB": positionB,
             "positionAValue" : positionAValue,
             "positionBValue" : positionBValue,
-            "feesAccrued": feesAccrued,
-            "profitsAccrued": profitsAccrued,
-            "initialInvestmentValue": initialInvestmentValue,
-            "currentInvestmentEquivalentValue": currentInvestmentEquivalentValue
+			"lowerTick" : lowerTick,
+			"upperTick" : upperTick
         }
 
-		console.log("push")
-		$storeFE[l] = newPosition;	// add the new item to the list
-		console.log($storeFE);	
+		try{ 
+			mintNewPosition($address, newPosition.positionBValue, newPosition.positionAValue, newPosition.lowerTick, newPosition.upperTick, $provider).catch(function(error){
+				console.log(error);
+			});
+			console.log("push")
+			$storeFE[l] = newPosition;	// add the new item to the list
+			console.log($storeFE);	
+		} catch(e) {
+			console.log(e);
+			//alert 
+		}
 		 // increment our id to add additional items
     }
 </script>
@@ -50,17 +61,23 @@
 			<div class="modal-body" style="text-align: left;">
 				Select Pair
 				<div class="row">
-					<div class="col-md-6"><input bind:value={positionA} placeholder="ETH"></div>
-					<div class="col-md-6"><input bind:value={positionB} placeholder="ETH"></div>
+					<div class="col-md-6"><input bind:value={positionA} placeholder="WETH"></div>
+					<div class="col-md-6"><input bind:value={positionB} placeholder="USDC"></div>
 				</div>
 
 				Position Values
 				<div class="row">
-					<div class="col-md-6"><input bind:value={positionAValue} placeholder="0.00"></div>
-					<div class="col-md-6"><input bind:value={positionBValue} placeholder="0.00"></div>
+					<div class="col-md-6"><input bind:value={positionAValue} placeholder="1000000000000000000"></div>
+					<div class="col-md-6"><input bind:value={positionBValue} placeholder="1000000000000000000"></div>
 				</div>
 
-				Fee Tier
+				Ticks
+				<div class="row">
+					<div class="col-md-6"><input bind:value={lowerTick} placeholder="0"></div>
+					<div class="col-md-6"><input bind:value={upperTick} placeholder="0"></div>
+				</div>
+
+				<!-- Fee Tier
 				<div class="row">
 					<div class="col-md-4"><input bind:value={feesAccrued} placeholder="0.00"></div>
 					<div class="col-md-4"><input bind:value={profitsAccrued} placeholder="0.00"></div>
@@ -74,7 +91,7 @@
 				<div class="row">
 					<div class="col-md-6"><input placeholder="MIN"></div>
 					<div class="col-md-6"><input placeholder="MAX"></div>
-				</div>
+				</div> -->
 				<!-- <label>
 					Initial Investment Value
 					<input type=number bind:value={initialInvestmentValue}>

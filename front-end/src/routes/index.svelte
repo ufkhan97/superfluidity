@@ -4,7 +4,8 @@
 </svelte:head>
 <script>
 	import { ethers } from 'ethers';
-	import { address } from '../components/store.js'
+	import { address, provider } from '../components/store.js'
+	import { goto } from '$app/navigation';
 
 	let getAddress;
 
@@ -13,19 +14,21 @@
 
 		getAddress = async function getAddress(){
 			// @ts-ignore
-			const provider = new ethers.providers.Web3Provider(window.ethereum, "any")
+			const n_provider = new ethers.providers.Web3Provider(window.ethereum, "any")
+			$provider = n_provider
 
 			try {
-				console.log(provider);
-				await provider.send("eth_requestAccounts", []);
-				const signer = provider.getSigner();
+				console.log($provider);
+				await n_provider.send("eth_requestAccounts", []);
+				const signer = n_provider.getSigner();
 				$address = await signer.getAddress();
 				console.log("Account:", $address);
 				//redirect to dashboard
-				document.cookie = "address="+$address+"; path=/dashboard";
-				console.log("Checking Cookie:", document.cookie);
+				// document.cookie = "address="+$address+"; path=/dashboard";
+				// console.log("Checking Cookie:", document.cookie);
 				// console.log($address)
-				window.location.href = "/dashboard";
+				// window.location.href = "/dashboard";
+				goto("/dashboard");
 			} catch(e) {
 				console.log(e);
 				window.alert("Please install Metamask or sign in");

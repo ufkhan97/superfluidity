@@ -7,7 +7,7 @@
     // import { onMount } from "svelte";
     import Dialog from "../components/Dialog.svelte";
     import Position from "../components/Position.svelte";
-	import { storeFE, idIncrement, address } from '../components/store.js';
+	import { storeFE, idIncrement, address, provider } from '../components/store.js';
 
     // onMount(() => {
     //     // const { user } = session;
@@ -22,17 +22,14 @@
     //         }
     //     });
 
-    
-
-
-
     if (typeof window !== 'undefined') {
         // redirect to login page if address is not set
-        $address = document.cookie.split('=')[1];
+        // $address = document.cookie.split('=')[1];
         console.log("Address", $address);
+        console.log("Provider", $provider)
 
         if (typeof($address) == "undefined") {
-            window.location.href = '/';
+            // window.location.href = '/';
         }
     }
 
@@ -42,30 +39,31 @@
 
     function getPositions(){
         // TODO: function call to api
-        return [
-        {
-            "id": 0,
-            "positionA": "ETH",
-            "positionB": "DAI",
-            "positionAValue": 1.031,
-            "positionBValue": 4023.82,
-            "feesAccrued": 231.11,
-            "profitsAccrued": 2.71,
-            "initialInvestmentValue": 0.00,
-            "currentInvestmentEquivalentValue": 0.00,
-        },
-        {
-            "id": 1,
-            "positionA": "BTC",
-            "positionB": "DAI",
-            "positionAValue": 0.56,
-            "positionBValue": 8023.82,
-            "feesAccrued": 7593.08,
-            "profitsAccrued": 18.00,
-            "initialInvestmentValue": 0.00,
-            "currentInvestmentEquivalentValue": 0.00,
-        }
-    ]
+        // return [
+        //     {
+        //         "id": 0,
+        //         "positionA": "ETH",
+        //         "positionB": "DAI",
+        //         "positionAValue": 1.031,
+        //         "positionBValue": 4023.82,
+        //         "feesAccrued": 231.11,
+        //         "profitsAccrued": 2.71,
+        //         "initialInvestmentValue": 0.00,
+        //         "currentInvestmentEquivalentValue": 0.00,
+        //     },
+        //     {
+        //         "id": 1,
+        //         "positionA": "BTC",
+        //         "positionB": "DAI",
+        //         "positionAValue": 0.56,
+        //         "positionBValue": 8023.82,
+        //         "feesAccrued": 7593.08,
+        //         "profitsAccrued": 18.00,
+        //         "initialInvestmentValue": 0.00,
+        //         "currentInvestmentEquivalentValue": 0.00,
+        //     }
+        // ]
+        return [];
     }
 
     // these are our 'items' saved to our Svelte store
