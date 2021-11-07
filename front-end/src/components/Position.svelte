@@ -20,23 +20,26 @@ import { loop_guard } from "svelte/internal";
 <div class="row">
 	<div class="col-md-12 box positions">
 		<row class="row">
-			<div class="col-md-3">
+			<div class="col-md-2">
 				{position['positionA']}/{position['positionB']}<br />
 				<img src="" alt={position['positionA']} width="20px" height="20px" />
 				<img src="" alt={position['positionB']} width="20px" height="20px" />
 			</div>
-			<div class="col-md-3">
+			<div class="col-md-2">
 				Position Value: <br />
-				{position['positionAValue']} ETH / {position['positionBValue']} DAI
+				{position['positionAValue']} {position['positionA']} / {position['positionBValue']} {position['positionB']}
 			</div>
-			<div class="col-md-3">
+			<div class="col-md-2">
 				Fees: <br />
-				{position['feesAccrued']} DAI
+				{position['feesAccrued']} {position['positionB']}
 			</div>
-			<div class="col-md-3">
+			<div class="col-md-2">
 				Profits: <br />
-				{position['profitsAccrued']} DAI
-                <button on:click={removeComponent}>Remove</button>
+				{position['profitsAccrued']} {position['positionB']}
+			</div>
+			<div class="col-md-2"></div>
+			<div class="col-md-2">
+				<button class="btn btn-danger" on:click={() => removeComponent()}>Remove</button>
 			</div>
 		</row>
 	</div>

@@ -1,20 +1,25 @@
 <script>
 	import {storeFE, idIncrement} from './store.js'
 
-	let positionA = "";
-    let positionB = "";
-    let positionAValue = 0.00;
-    let positionBValue = 0.00;
-    let feesAccrued = 0.00;
-    let profitsAccrued = 0.00;
-    let initialInvestmentValue = 0.00;
-    let currentInvestmentEquivalentValue = 0.00;
+	let positionA;
+    let positionB;
+    let positionAValue;
+    let positionBValue;
+    let feesAccrued;
+    let profitsAccrued;
+    let initialInvestmentValue;
+    let currentInvestmentEquivalentValue;
+
+	// function getPositions(){}
 
 	function onSubmit(){
+		// $storeFE = [];
+		// $storeFE = getPositions();
 		var l = $storeFE.length;	// get our current items list count
 		$idIncrement = l
 
         let newPosition = {
+			"id": $idIncrement,
             "positionA": positionA,
             "positionB": positionB,
             "positionAValue" : positionAValue,
@@ -28,9 +33,10 @@
 		console.log("push")
 		$storeFE[l] = newPosition;	// add the new item to the list
 		console.log($storeFE);	
-		$idIncrement++; // increment our id to add additional items
+		 // increment our id to add additional items
     }
 </script>
+
 <div class="modal" id="exampleModal" tabindex="-1" role="dialog">
 	<div class="modal-dialog" role="document">
 	  <div class="modal-content">
@@ -42,38 +48,41 @@
 		</div>
 		<form class="position-form" on:submit={onSubmit}>
 			<div class="modal-body" style="text-align: left;">
-				<label>
-					Position A
-					<input bind:value={positionA} placeholder="ETH">
-				</label>
-				<label>
-					Position B
-					<input bind:value={positionB} placeholder="ETH">
-				</label>
-				<label>
-					Position A Value
-					<input type=number bind:value={positionAValue}>   
-				</label>
-				<label>
-					Position B Value
-					<input type=number bind:value={positionBValue}>
-				</label>
-				<label>
-					Fees Accrued
-					<input type=number bind:value={feesAccrued}>
-				</label>
-				<label>
-					Profits Accrued
-					<input type=number bind:value={profitsAccrued}>
-				</label>
-				<label>
+				Select Pair
+				<div class="row">
+					<div class="col-md-6"><input bind:value={positionA} placeholder="ETH"></div>
+					<div class="col-md-6"><input bind:value={positionB} placeholder="ETH"></div>
+				</div>
+
+				Position Values
+				<div class="row">
+					<div class="col-md-6"><input bind:value={positionAValue} placeholder="0.00"></div>
+					<div class="col-md-6"><input bind:value={positionBValue} placeholder="0.00"></div>
+				</div>
+
+				Fee Tier
+				<div class="row">
+					<div class="col-md-4"><input bind:value={feesAccrued} placeholder="0.00"></div>
+					<div class="col-md-4"><input bind:value={profitsAccrued} placeholder="0.00"></div>
+					<div class="col-md-4"><input bind:value={initialInvestmentValue} placeholder="0.00"></div>
+				</div>
+
+				Reinvest Fees?
+				<div class="row">
+					<div class="col-md-12"><input placeholder="Full Range"></div>
+				</div>
+				<div class="row">
+					<div class="col-md-6"><input placeholder="MIN"></div>
+					<div class="col-md-6"><input placeholder="MAX"></div>
+				</div>
+				<!-- <label>
 					Initial Investment Value
 					<input type=number bind:value={initialInvestmentValue}>
 				</label>
 				<label>
 					Current Investment Equivalent Value
 					<input type=number bind:value={currentInvestmentEquivalentValue}>
-				</label>
+				</label> -->
 			</div>
 			<div class="modal-footer">
 				<button on:click={onSubmit} type="submit" class="btn button-1" data-dismiss="modal">Save changes</button>
@@ -119,5 +128,8 @@
         border: 0px solid #ccc;
         border-radius: .24em;
         box-sizing: border-box;
+		background-color: #382a4b;
+		color: #fff;
+		box-shadow: inset 1px 1px 5px rgba(0, 0, 0, .2);
         }
   </style>

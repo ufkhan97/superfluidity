@@ -4,16 +4,44 @@
 </svelte:head>
 
 <script>
-    import { writable } from "svelte/store";
+    // import { onMount } from "svelte";
     import Dialog from "../components/Dialog.svelte";
     import Position from "../components/Position.svelte";
-	import { storeFE, idIncrement } from '../components/store.js';
+	import { storeFE, idIncrement, address } from '../components/store.js';
+
+    // onMount(() => {
+    //     // const { user } = session;
+    //     if (typeof($address) == "undefined" || $address == "") {
+    //         // console.log("AAA")
+    //         // load();
+    //         // window.location.href = '/';
+    //             return {
+    //                 status: 302,
+    //                 redirect: "/"
+    //             };
+    //         }
+    //     });
+
+    
+
+
+
+    if (typeof window !== 'undefined') {
+        // redirect to login page if address is not set
+        $address = document.cookie.split('=')[1];
+        console.log("Address", $address);
+
+        if (typeof($address) == "undefined") {
+            window.location.href = '/';
+        }
+    }
 
     let positionsContainer;
 
-	let wallet_address = '0x01234567890abcdef';
+	// let wallet_address = '0x01234567890abcdef';
 
     function getPositions(){
+        // TODO: function call to api
         return [
         {
             "id": 0,
@@ -51,16 +79,11 @@
 			<div class="col-md-10 box">
 				<div class="row buttons-row">
 					<div class="col-md-6 action-area">
-						<!-- <p style="text-align: center;">test</p> -->
 						<a href="" data-toggle="modal" data-target="#exampleModal" class="button button-1">+ New Position</a>
-                        <!-- <a href="" on:click={addItem} class="button button-1">+</a> -->
-
                         <Dialog></Dialog>
-
 					</div>
 					<div class="col-md-6 action-area">
-						<!-- <p style="text-align: center;">test</p> -->
-						<a href="" class="button button-1">Pool Rankings</a>
+						<a href="" class="button button-1" >Pool Rankings</a>
 					</div>
 				</div>
 			</div>
@@ -69,7 +92,7 @@
 			<div class="col-md-10 box">
                 <div class="row buttons-row">
                     <div bind:this={positionsContainer} class="col-md-12" id="positions">
-                        <h4>Superfluidity Positions for {wallet_address}</h4>
+                        <h4>Superfluidity Positions for: {$address}</h4>
                         <hr/>
                         {#each $storeFE as position}
                         <Position position={position}></Position>
@@ -107,13 +130,13 @@
         padding: 25px;
     }
 
-    .button-1{
+    /* .button-1{
         background: #1E162B;
         color: #ccc;
         -webkit-border-radius: .24em;
         -moz-border-radius: .24em;
         border-radius: .24em;
-    }
+    } */
 
     .button-1{
         display: inline-block;
@@ -135,6 +158,7 @@
         background-color:#FFFFFF;
         box-shadow: 2px 2px 5px rgba(255, 255, 255, .5);
     }
+
     @media all and (max-width:30em){
         .button-1{
         display:block;
