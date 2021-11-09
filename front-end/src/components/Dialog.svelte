@@ -30,7 +30,9 @@
             "positionAValue" : positionAValue,
             "positionBValue" : positionBValue,
 			"lowerTick" : lowerTick,
-			"upperTick" : upperTick
+			"upperTick" : upperTick,
+			"feesAccrued" : 0,
+			"profitsAccrued" : 0,
         }
 
 		try{ 
@@ -103,7 +105,7 @@
 			</div>
 			<div class="modal-footer">
 				<button on:click={onSubmit} type="submit" class="btn button-1" data-dismiss="modal">Save changes</button>
-				<button type="button" class="btn button-1" data-dismiss="modal">Close</button>
+				<button type="button" class="btn button-2" data-dismiss="modal">Close</button>
 			</div>
 		</form>
 	  </div>
@@ -131,6 +133,28 @@
         background-color:#FFFFFF;
         box-shadow: 2px 2px 5px rgba(255, 255, 255, .5);
     }
+
+	.button-2{
+        display: inline-block;
+        padding: 0.35em 1.2em;
+        border: 0.1em solid #8B0000;
+        margin: 0 0.3em 0.3em 0;
+        border-radius: 0.24em;
+        box-sizing: border-box;
+        text-decoration:none;
+        font-family:'Roboto',sans-serif;
+        font-weight:300;
+        color:#ccc;
+        text-align:center;
+        transition: all 0.2s;
+    }
+
+    .button-2:hover{
+        color:#ffffff;
+        background-color:#8B0000;
+        box-shadow: 2px 2px 5px rgba(139, 0, 0, .5);
+    }
+
 	.modal-content{
         background-color: #170D26;
         padding: 1.5em;
