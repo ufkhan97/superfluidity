@@ -1,0 +1,13 @@
+{
+  "devDependencies": {
+    "@uniswap/sdk-core": "^3.0.1",
+    "@uniswap/v3-sdk": "^3.6.2-optimism-regenesis"
+  },
+  "dependencies": {
+    "@metamask/detect-provider": "^1.2.0",
+    "ethers": "^5.5.1",
+    "graphql": "^16.1.0",
+    "graphql-request": "^3.7.0",
+    "web3-utils": "^1.6.0"
+  }
+}
