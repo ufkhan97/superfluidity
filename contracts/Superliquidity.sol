@@ -11,11 +11,13 @@ contract Superliquidity {
 
   //Takes transaction data from the vault and wraps assets as super tokens
   function wrapLiquidity() external {
-    //prob something like upgradeTo(address msg.sender, address vault address, uint addActiveLiquidity)
+    //prob something like upgradeTo(address msg.sender, address vaultAddress, uint amount)
+    //reserveLiquidity = ++amount
   }
 
   function unwrapLiquidity() external {
     //downgrade()
+    //reserveLiquidity = --amount
   }
 
   function onSwap() external {
@@ -29,44 +31,57 @@ contract Superliquidity {
 
   }
 
+  //maybe not a function but this happens somewhere
   function getPositionData() internal {
     //query subgraph for realtime position liquidity, store in position array
-    // positions = position[subgraph.query('address', position, depth, liquidity)]
+    //positions = position[subgraph.query('address', position, depth, liquidity, upperTick, lowerTick)]
+  }
+
+  //Check change in price over time to find price velocity
+  function calculateVelocity() internal {
+    //listen for price update event
+    //calculate price velocity, smooth average, emit event 
+    //priceVelocity = vwap - oldvwap / 2 * priceVelocity[1,..,10]/10 (avg over previous epochs to smooth the avg flowrate) 
+    //emit event updateVelocity
   }
 
   //Compares the capital distribution curve array to the position array to return the difference in active liquidity and inactive liquidity, 
   function compareCapDistCurve() internal {
     //variables for inactive and active liquidity are computed here
+    //
   }
 
-  function calculateFlowRate() internal {
-    //flowrate = vwap - oldvwap / 2 * flowrate[1,..,10]/10 (avg flow over previous epochs to smooth the avg flowrate) * inactiveLiquidity (might be ideal to leave some float, could modify flowrate so that there's always some left by the next epoch)
-    //emit event updateFlowrate
-  }
-
-  //Updates CFA with current distribution data and flow rate
+  //Updates CFA array with current distribution data and flow rate
   function updateStream() internal {
     //Update sender/receiver address array, push to agreements (or make new agreement if none found)
+    //Calculate the position's distance from the mean, increase flowrate exponentially based on distance
+    //Find tick, subtract from mean, square it, multiply distance^2 by velocity then by available inactive liquidity
+    //flowrate = mean - (position.upperTick + position.lowerTick / 2) ** 2 * (priceVelocity * inactiveLiquidity - reserveLiquidity)
+    //(might be ideal to leave some float, could modify flowrate so that there's always some left by the next epoch i.e inactiveLiquidity - inactiveLiquidity * 0.01 or subtract reserveLiquidity)
   }
 
 }
 
 //Questions to be answered:
-//Do streaming agreements have static addresses, or can they be updated?
-//  If static, each position needs 2 agreements (one for each position next to it) and use an exponential flowrate curve to send it up the chain
-//  Else, use 1 CFA containing each address pair, or put vault in the middle i.e 1 CFA for inflows, 1 CFA outflows
+//CFA chain or Vault in/vault out CFA list?
+//  To chain, each position needs 2 agreements (one for each position next to it) and uses an exponential flowrate curve to send it up the chain
+//  
+//Would an IDA be the fastest way to get funds out? When in the cycle should this occur?
+//  - Check for withdrawals on update? Check to see if reserveLiquidity address contains <= reserveLiquidity variable. If less than, measure difference, update IDA with inactive liquidity positions as senders as a step function (each furthest position empties before using funds from the next, until transaction funds = difference)
+//
+//Is there an absolute value function in Solidity? Distance from the mean in flowrate needs to be a positive integer
 //
 //Does Chainlink's VWAP have a different event for heartbeat updates vs other updates?
 //
 //Is there a subgraph query parameter to check for non-zero entries? 
 //
-//Will position data need to be checked using realtimeBalanceOf() from the super agreement? Or can we just query from a subgraph checking the position data
+//Will position data need to be constructed using realtimeBalanceOf() (or get.netflow()?) from the super agreement? Or can we just query from a subgraph checking the position data
 //could probably use a struct for position transaction data
 
 
 //**
 //
-// EXAMPLE CODE
+// 
 //
 // inherits gaussianDistribution
 // contract gaussianDistribution {
@@ -125,6 +140,7 @@ contract Superliquidity {
 
 // } */
 
+//EXAMPLE
 
 // // @dev create flow to new receiver
     //     _host.callAgreement(
@@ -148,6 +164,3 @@ contract Superliquidity {
 // get.netflow 
 // subgraph examples
 // streameduntilupdatedat
-// the pick
-// sentinels - long-tailed assets
-// GDA - General distribution agreement 
