@@ -31,6 +31,18 @@ contract Superliquidity {
 
   }
 
+  //Compares the capital distribution curve array to the position array to return the difference in active liquidity and inactive liquidity, 
+  function compareCapDistCurve() internal {
+    //variables for inactive and active liquidity are computed here
+    //for each position do
+    //if positions.liquidity - capDistCurve.plot * activeLiquidity > 0 
+      //++inactiveLiquidity, add.positions.outgoingLiquidity 
+      //Check position against its plot, if there is excess then it is added to the total of inactiveLiquidity and saved in the position array corresponding to the outgoing amount for its CFA transaction 
+      //Edge case: Need to pick a default direction to transact if the position at the mean has liquidity exceeding its plot 
+      //Else: If a position's liquidity is less than its plot value then its outgoing value and flowrate are 0 
+        //add.positions.outgoingLiquidity == 0
+  }
+
   //maybe not a function but this happens somewhere
   function getPositionData() internal {
     //query subgraph for realtime position liquidity, store in position array
@@ -43,12 +55,6 @@ contract Superliquidity {
     //calculate price velocity, smooth average, emit event 
     //priceVelocity = vwap - oldvwap / 2 * priceVelocity[1,..,10]/10 (avg over previous epochs to smooth the avg flowrate) 
     //emit event updateVelocity
-  }
-
-  //Compares the capital distribution curve array to the position array to return the difference in active liquidity and inactive liquidity, 
-  function compareCapDistCurve() internal {
-    //variables for inactive and active liquidity are computed here
-    //
   }
 
   //Updates CFA array with current distribution data and flow rate
@@ -77,6 +83,8 @@ contract Superliquidity {
 //
 //Will position data need to be constructed using realtimeBalanceOf() (or get.netflow()?) from the super agreement? Or can we just query from a subgraph checking the position data
 //could probably use a struct for position transaction data
+//
+//Would it make sense to have an "expected" value variable for the position liquidity amount? 
 
 
 //**
