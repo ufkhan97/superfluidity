@@ -56,7 +56,7 @@ contract Superliquidity {
     //Update sender/receiver address array, push to agreements (or make new agreement if none found)
     //Calculate the position's distance from the mean, increase flowrate exponentially based on distance
     //Find tick, subtract from mean, square it, multiply distance^2 by velocity then by available inactive liquidity
-    //flowrate = mean - (position.upperTick + position.lowerTick / 2) ** 2 * (priceVelocity * inactiveLiquidity - reserveLiquidity)
+    //flowrate = mean - (position.upperTick + position.lowerTick / 2) ** 2 * priceVelocity * (inactiveLiquidity - reserveLiquidity)
     //(might be ideal to leave some float, could modify flowrate so that there's always some left by the next epoch i.e inactiveLiquidity - inactiveLiquidity * 0.01 or subtract reserveLiquidity)
   }
 
