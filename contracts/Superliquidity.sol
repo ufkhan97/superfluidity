@@ -35,12 +35,12 @@ contract Superliquidity {
   function compareCapDistCurve() internal {
     //variables for inactive and active liquidity are computed here
     //for each position do
-    //if positions.liquidity - capDistCurve.plot * activeLiquidity > 0 
-      //++inactiveLiquidity, add.positions.outgoingLiquidity 
-      //Check position against its plot, if there is excess then it is added to the total of inactiveLiquidity and saved in the position array corresponding to the outgoing amount for its CFA transaction 
-      //Edge case: Need to pick a default direction to transact if the position at the mean has liquidity exceeding its plot 
-      //Else: If a position's liquidity is less than its plot value then its outgoing value and flowrate are 0 
-        //add.positions.outgoingLiquidity == 0
+      //if positions.liquidity - capDistCurve.plot * activeLiquidity > 0 
+        //++inactiveLiquidity, add.positions.outgoingLiquidity 
+        //Check position against its plot, if there is excess then it is added to the total of inactiveLiquidity and saved in the position array corresponding to the outgoing amount for its CFA transaction 
+        //Edge case: Need to pick a default direction to transact if the position at the mean has liquidity exceeding its plot
+        //Else: If a position's liquidity is less than its plot value then its outgoing value and flowrate are 0 
+          //add.positions.outgoingLiquidity == 0
   }
 
   //maybe not a function but this happens somewhere
@@ -60,16 +60,17 @@ contract Superliquidity {
   //Updates CFA array with current distribution data and flow rate
   function updateStream() internal {
     //Update sender/receiver address array, push to agreements (or make new agreement if none found)
+      //
     //Calculate the position's distance from the mean, increase flowrate exponentially based on distance
     //Find tick, subtract from mean, square it, multiply distance^2 by velocity then by available inactive liquidity
-    //flowrate = mean - (position.upperTick + position.lowerTick / 2) ** 2 * priceVelocity * (inactiveLiquidity - reserveLiquidity)
-    //(might be ideal to leave some float, could modify flowrate so that there's always some left by the next epoch i.e inactiveLiquidity - inactiveLiquidity * 0.01 or subtract reserveLiquidity)
+    //flowrate = (mean - (position.upperTick + position.lowerTick / 2)) ** 2 * priceVelocity * (inactiveLiquidity - reserveLiquidity)
+    //(might be ideal to leave some float, could modify flowrate so that there's always some left by the next epoch i.e inactiveLiquidity - inactiveLiquidity * 0.01 or use that calculation inside of reserveLiquidity)
   }
 
 }
 
 //Questions to be answered:
-//CFA chain or Vault in/vault out CFA list?
+//CFA chain or Vault-in/vault-out CFA list?
 //  To chain, each position needs 2 agreements (one for each position next to it) and uses an exponential flowrate curve to send it up the chain
 //  
 //Would an IDA be the fastest way to get funds out? When in the cycle should this occur?
